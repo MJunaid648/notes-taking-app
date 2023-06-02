@@ -1,39 +1,28 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import NoteDetail from "./pages/NoteDetail";
 import { useState } from "react";
-import NotesList from "./components/NotesList";
-import Card from "./components/UI/Card";
-import Form from "./components/form/Form";
-
+import EditPage from "./pages/EditPage";
 function App() {
-  const [notes, setNotes] = useState([]);
-
-  const addNote = (note) => {
-    setNotes((prev) => [note, ...prev]);
-    console.log(notes);
+  const [currentNote, setCurrentNote] = useState({});
+  const [editNote,setEditNote] = useState({})
+  const setCurrentNoteHandler = (note) => {
+    setCurrentNote(note);
   };
-
+  const editNoteHandler=(note)=>{
+    setEditNote(note)
+  }
   return (
-    <div
-      className="
-            flex flex-col items-center gap-6 font-sans
-              p-4"
-    >
-      <header
-        className=" text-center text-5xl  text-white
-                    font-bold"
-      >
-        My notes
-      </header>
-      <hr className="h-2 w-[100%] md:w-[65%] lg:w-[70%]" />
-      <Card className="w-[100%] md:w-[65%] lg:w-[70%] border-2 border-white">
-        <Form addNote={addNote} />
-      </Card>
-      <div
-        className=" text-center text-5xl  text-white
-                    font-bold"
-      >
-        Previous notes
-      </div>
-      <NotesList className="w-[100%] md:w-[65%] lg:w-[70%]" notes={notes} />
+    <div className=" flex flex-col gap-6 font-sans p-4">
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/home" element={<HomePage setCurrentNoteHandler={setCurrentNoteHandler} />} />
+          <Route path="/home/details" element={<NoteDetail currentNote={currentNote} editNoteHandler={editNoteHandler} />} />
+          <Route path="/home/edit" element={<EditPage note={editNote}/>} />
+        </Routes>
+      </Router>
     </div>
   );
 }

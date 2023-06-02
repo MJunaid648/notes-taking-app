@@ -1,14 +1,17 @@
 import React from "react";
 import Card from "./UI/Card";
+import {Link } from "react-router-dom";
 
 const NotesList = (props) => {
   const List =
-    props.notes.length > 0? (
+    props.notes.length > 0 ? (
       props.notes.map((note) => {
         return (
+          <Link to={'/home/details'} key={note.id} className="w-[100%] md:w-[80%] lg:w-[70%]">
           <Card
-            key={note.id}
-            className={
+           onClick={()=>props.setCurrentNoteHandler(note)}
+            
+            className={ 
               `flex justify-between items-center p-2 gap-4
           border-2 border-white
             hover:-translate-y-2 hover:cursor-pointer hover:transition-all hover:bg-gray-900 hover:shadow-2xl
@@ -16,11 +19,11 @@ const NotesList = (props) => {
             }
           >
             <p
-              className="text-md text-base 
+              className="text-2xl 
                       overflow-hidden truncate 
-                      font-medium text-white"
+                      font-bold text-white"
             >
-              {note.note}
+              {note.title}
             </p>
             <div className="flex gap-4 items-center">
               <p className=" text-white text-xl">@</p>
@@ -30,10 +33,13 @@ const NotesList = (props) => {
               </div>
             </div>
           </Card>
+          </Link>                       
         );
       })
     ) : (
-      <p className="text-md text-white font-semibold">No saved notes at the moment</p>
+      <p className="text-md text-white font-semibold">
+        No saved notes at the moment
+      </p>
     );
   return List;
 };
