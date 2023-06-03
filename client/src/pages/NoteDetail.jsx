@@ -1,16 +1,14 @@
 import { MdDeleteOutline } from "react-icons/md";
 import { AiOutlineEdit, AiOutlineHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 import Card from "../components/UI/Card";
+import AppContext from "../context/AppContext";
+import { useContext } from "react";
 
-function htmlToText(htmlString) {
-  const temporaryElement = document.createElement("div");
-  temporaryElement.innerHTML = htmlString;
-  //   console.log(temporaryElement.textContent || temporaryElement.innerText);
-  return temporaryElement.textContent || temporaryElement.innerText;
-}
+const NoteDetail = () => {
+  const ctx = useContext(AppContext);
 
-const NoteDetail = (props) => {
   return (
     <Card
       className="self-center border-2 gap-4 p-4 flex flex-col  justify-center
@@ -20,18 +18,22 @@ const NoteDetail = (props) => {
     >
       <div className="flex gap-8 justify-between text-4xl">
         <Link to="/home">
-          <button className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl">
+          <button
+            onClick={() => ctx?.currentNoteHandler(null)}
+            className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl"
+          >
             <AiOutlineHome />
           </button>
         </Link>
         <div className="flex gap-4">
-          <button className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl">
+          <button
+            className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl"
+            onClick={() => ctx?.deleteNoteHandler(ctx?.currentNote)}
+          >
             <MdDeleteOutline />
           </button>
           <Link to="/home/edit">
-            <button className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl "
-            onClick={props.editNoteHandler(props.currentNote)}
-            >
+            <button className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl">
               <AiOutlineEdit />
             </button>
           </Link>
@@ -42,11 +44,11 @@ const NoteDetail = (props) => {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-4 p-4  border-2 text-xl font-bold text-justify ">
-        <p className="text-4xl">{props.currentNote.title}:</p>
-        <p>{htmlToText(props.currentNote.desc)}</p>
+        <p className="text-4xl">{ctx?.currentNote.title}:</p>
+        {ReactHtmlParser(ctx?.currentNote.desc)}
         <div className="self-end flex gap-4">
-          <p>{props.currentNote.time}</p>
-          <p>{props.currentNote.date}</p>
+          <p>{ctx?.currentNote.time}</p>
+          <p>{ctx?.currentNote.date}</p>
         </div>
       </div>
     </Card>

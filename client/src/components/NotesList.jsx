@@ -1,15 +1,18 @@
-import React from "react";
 import Card from "./UI/Card";
 import {Link } from "react-router-dom";
+import React, { useContext } from "react";
+import AppContext from "../context/AppContext";
 
 const NotesList = (props) => {
+  const ctx = useContext(AppContext)
+
   const List =
-    props.notes.length > 0 ? (
-      props.notes.map((note) => {
+    ctx?.notes.length > 0 ? (
+      ctx?.notes.map((note) => {
         return (
           <Link to={'/home/details'} key={note.id} className="w-[100%] md:w-[80%] lg:w-[70%]">
           <Card
-           onClick={()=>props.setCurrentNoteHandler(note)}
+           onClick={()=>ctx?.currentNoteHandler(note)}
             
             className={ 
               `flex justify-between items-center p-2 gap-4

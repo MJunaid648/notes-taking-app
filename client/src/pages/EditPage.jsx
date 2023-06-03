@@ -1,12 +1,14 @@
-import React from 'react'
 import Form from "../components/form/Form"
 import Card from "../components/UI/Card"
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
+import React, { useContext } from "react";
+import AppContext from "../context/AppContext";
 
 
 
-const EditPage = (props) => {
+const EditPage = () => {
+
   return (
     <Card className=" self-center w-[100%] md:w-[80%] lg:w-[70%] border-2 border-white">
         <Link to="/home" className="text-white text-4xl">
@@ -14,7 +16,7 @@ const EditPage = (props) => {
             <AiOutlineHome />
           </button>
         </Link>
-        <Form editNote={props.note}/>
+        <Form/>
       </Card>
   )
 }

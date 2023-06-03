@@ -1,5 +1,7 @@
 import JoditEditor from "jodit-react";
 const editorConfig = {
+  statusbar: false,
+  minHeight:"350px",
   buttons: [
     "bold", // Add the "bold" button to the toolbar
     "italic",

@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AppContext from "../../context/AppContext";
 import TextEditor from "../TextEditor";
-
-const Form = (props) => {
+import { useContext, useState } from "react";
+const Form = () => {
+  const navigate = useNavigate();
+  const ctx = useContext(AppContext);
   const [title, setTitle] = useState(
-    props.editNote ? props.editNote.title : ""
+    ctx?.currentNote ? ctx?.currentNote.title : ""
   );
-  const [desc, setDesc] = useState(props.editNote ? props.editNote.desc : "");
+  const [desc, setDesc] = useState(
+    ctx?.currentNote ? ctx?.currentNote.desc : ""
+  );
 
   const descChangeHandler = (newContent) => {
     setDesc(newContent);
@@ -15,25 +20,38 @@ const Form = (props) => {
     setTitle(event.target.value);
   };
 
-  const descSubmitHandler = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
+
     const now = new Date();
     const time = now.toLocaleTimeString("en-US");
     const date = now.toISOString().slice(0, 10);
 
-    props.addNote({
-      id: Math.random().toString(),
-      title: title,
-      desc: desc,
-      date: date,
-      time: time,
-    });
+    if (ctx?.currentNote) {
+      ctx?.updateNoteHandler({
+        ...ctx?.currentNote,
+        title: title,
+        desc: desc,
+        date: date,
+        time: time,
+      });
+    } else {
+      ctx?.addNoteHandler({
+        id: Math.random().toString(),
+        title: title,
+        desc: desc,
+        date: date,
+        time: time,
+      });
+    }
+
     setDesc("");
     setTitle("");
+    navigate("/home");
   };
   return (
     <form
-      onSubmit={descSubmitHandler}
+      onSubmit={submitHandler}
       className=" flex flex-col gap-2 p-4 text-white rounded-lg"
     >
       <label className="text-lg font-semibold" htmlFor="title">
