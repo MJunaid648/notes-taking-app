@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application that serves as a responsive note-taking platform. The live version of the application can be accessed at [mj-notes.netlify.app]([https://mj-notes.netlify.com](https://mj-notes.netlify.app/)).
+This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application that serves as a responsive note-taking platform. The live version of the application can be accessed at [mj-notes.netlify.app](https://mj-notes.netlify.app/)).
 
 ## Front-end Technologies
 
