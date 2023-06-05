@@ -31,8 +31,8 @@ const NotesList = (props) => {
             <div className="flex gap-4 items-center">
               <p className=" text-white text-xl">@</p>
               <div className="flex flex-col">
-                <p className="text-white w-24">{note.date}</p>
-                <p className="text-white">{note.time}</p>
+                {/* <p className="text-white w-24">{note.date.toLocaleTimeString("en-US")}</p>
+                <p className="text-white">{note.date.toISOString().slice(0, 10)}</p> */}
               </div>
             </div>
           </Card>

@@ -19,7 +19,7 @@ const NoteDetail = () => {
       <div className="flex gap-8 justify-between text-4xl">
         <Link to="/home">
           <button
-            onClick={() => ctx?.currentNoteHandler(null)}
+            onClick={() => ctx?.EmptyCurrentNoteHandler()}
             className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl"
           >
             <AiOutlineHome />
@@ -28,7 +28,7 @@ const NoteDetail = () => {
         <div className="flex gap-4">
           <button
             className="border-2 p-2 rounded-lg hover:bg-gray-900 hover:shadow-2xl"
-            onClick={() => ctx?.deleteNoteHandler(ctx?.currentNote)}
+            onClick={() => ctx?.deleteNoteHandler(ctx)}
           >
             <MdDeleteOutline />
           </button>
@@ -45,7 +45,7 @@ const NoteDetail = () => {
 
       <div className="flex flex-col justify-center items-center gap-4 p-4  border-2 text-xl font-bold text-justify ">
         <p className="text-4xl">{ctx?.currentNote.title}:</p>
-        {ReactHtmlParser(ctx?.currentNote.desc)}
+        {ReactHtmlParser(ctx?.currentNote.description)}
         <div className="self-end flex gap-4">
           <p>{ctx?.currentNote.time}</p>
           <p>{ctx?.currentNote.date}</p>

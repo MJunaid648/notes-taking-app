@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import TextEditor from "../TextEditor";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 const Form = () => {
   const navigate = useNavigate();
   const ctx = useContext(AppContext);
@@ -9,7 +10,7 @@ const Form = () => {
     ctx?.currentNote ? ctx?.currentNote.title : ""
   );
   const [desc, setDesc] = useState(
-    ctx?.currentNote ? ctx?.currentNote.desc : ""
+    ctx?.currentNote ? ctx?.currentNote.description : ""
   );
 
   const descChangeHandler = (newContent) => {
@@ -20,7 +21,7 @@ const Form = () => {
     setTitle(event.target.value);
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const now = new Date();
@@ -28,27 +29,47 @@ const Form = () => {
     const date = now.toISOString().slice(0, 10);
 
     if (ctx?.currentNote) {
-      ctx?.updateNoteHandler({
-        ...ctx?.currentNote,
-        title: title,
-        desc: desc,
-        date: date,
-        time: time,
-      });
+      try {
+        const user = await axios.patch(
+          `http://localhost:5000/notes/${ctx?.currentNote._id}`,
+          { title, description: desc, date },
+          { withCredentials: true }
+        );
+        if (user.data.status === 1) {
+          console.log(user.data);
+          ctx.getNotesHandler();
+          ctx.EmptyCurrentNoteHandler()
+          navigate("/home")
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      ctx?.addNoteHandler({
-        id: Math.random().toString(),
-        title: title,
-        desc: desc,
-        date: date,
-        time: time,
-      });
+      try {
+        const user = await axios.post(
+          "http://localhost:5000/notes/",
+          { title, description: desc, date },
+          { withCredentials: true }
+        );
+        if (user.data.status === 1) {
+          console.log(user.data);
+          ctx.getNotesHandler();
+          navigate("/home")
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
+ 
     setDesc("");
     setTitle("");
-    navigate("/home");
+    // navigate("/home");
   };
+  useEffect(() => {
+    ctx.getNotesHandler();
+  }, []);
   return (
     <form
       onSubmit={submitHandler}
